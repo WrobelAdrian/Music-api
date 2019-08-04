@@ -22,6 +22,6 @@ async function bootstrap() {
   logger.log(`Server is listening http://localhost:3000`);
   logger.log(`Swagger is listening http://localhost:3000/api`);
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
