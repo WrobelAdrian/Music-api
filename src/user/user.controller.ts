@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Pat
 import { UserInterface as UserEntity} from './interfaces/user.interface';
 import { UserService } from './user.service';
 import { ApiImplicitBody, ApiResponse, ApiOperation, ApiUseTags } from '@nestjs/swagger';
-import { UserDto } from './dto/user.dto';
+import { UserModelDto } from './dto/user-model.dto';
 import { ParsePhoneNumberPipe } from '../_pipes/phone-number.pipe';
 import { UserDecorator } from '../_decorators/user.decorator';
 
@@ -12,13 +12,13 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('findAll')
-  @ApiResponse({status: 200, description: 'Fetching users complete', type: UserDto})
+  @ApiResponse({status: 200, description: 'Fetching users complete', type: UserModelDto})
   @ApiOperation({
     title: 'Get all users from database',
     description: 'Should return list off all users',
   })
   @HttpCode(HttpStatus.OK.valueOf())
-  async findAll(@UserDecorator() user: UserEntity): Promise<UserDto[]> {
+  async findAll(@UserDecorator() user: UserEntity): Promise<UserModelDto[]> {
     if (!user) {
       throw new HttpException({
         error: 'Authorization',
@@ -29,13 +29,13 @@ export class UserController {
   }
 
   @Get('self')
-  @ApiResponse({status: 200, description: 'Find user success', type: UserDto})
+  @ApiResponse({status: 200, description: 'Find user success', type: UserModelDto})
   @ApiOperation({
     title: 'Get user from database',
     description: 'Should return user found by id',
   })
   @HttpCode(HttpStatus.OK.valueOf())
-  async findSelf(@UserDecorator() user: UserEntity): Promise<UserDto> {
+  async findSelf(@UserDecorator() user: UserEntity): Promise<UserModelDto> {
     if (!user) {
       throw new HttpException({
           error: 'Authorization',
@@ -46,17 +46,17 @@ export class UserController {
   }
 
   @Post('self')
-  @ApiResponse({status: 201, description: 'Create user complete', type: UserDto})
+  @ApiResponse({status: 201, description: 'Create user complete', type: UserModelDto})
   @ApiOperation({
     title: 'Save new user to database',
     description: 'Should return newly created user',
   })
-  @ApiImplicitBody({name: 'user', type: UserDto})
+  @ApiImplicitBody({name: 'user', type: UserModelDto})
   @HttpCode(HttpStatus.OK.valueOf())
   async create(
     @UserDecorator() user: UserEntity,
-    @Body(ParsePhoneNumberPipe) data: UserDto,
-  ): Promise<UserDto> {
+    @Body(ParsePhoneNumberPipe) data: UserModelDto,
+  ): Promise<UserModelDto> {
     if (!user) {
       throw new HttpException({
           error: 'Authorization',
@@ -67,8 +67,8 @@ export class UserController {
   }
 
   @Patch('self')
-  @ApiImplicitBody({name: 'user', type: UserDto})
-  @ApiResponse({status: 200, description: 'Update user complete', type: UserDto})
+  @ApiImplicitBody({name: 'user', type: UserModelDto})
+  @ApiResponse({status: 200, description: 'Update user complete', type: UserModelDto})
   @ApiOperation({
     title: 'Update user in database',
     description: 'Should return updated user',
@@ -76,8 +76,8 @@ export class UserController {
   @HttpCode(HttpStatus.OK.valueOf())
   async update(
     @UserDecorator() user: UserEntity,
-    @Body(ParsePhoneNumberPipe) data: UserDto,
-  ): Promise<UserDto> {
+    @Body(ParsePhoneNumberPipe) data: UserModelDto,
+  ): Promise<UserModelDto> {
     if (!user) {
       throw new HttpException({
           error: 'Authorization',
@@ -88,13 +88,13 @@ export class UserController {
   }
 
   @Delete('self')
-  @ApiResponse({status: 200, description: 'Delete user complete', type: UserDto})
+  @ApiResponse({status: 200, description: 'Delete user complete', type: UserModelDto})
   @ApiOperation({
     title: 'Delete user from database',
     description: 'Should return message if deletion was successful',
   })
   @HttpCode(HttpStatus.OK.valueOf())
-  async delete(@UserDecorator() user: UserEntity): Promise<UserDto> {
+  async delete(@UserDecorator() user: UserEntity): Promise<UserModelDto> {
     if (!user) {
       throw new HttpException({
           error: 'Authorization',
