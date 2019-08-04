@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserInterface } from '../user/interfaces/user.interface';
 import { TOKEN_TOKEN } from '../_common/constants';
 import { Model } from 'mongoose';
-import { UserDto } from '../user/dto/user.dto';
+import { UserModelDto } from '../user/dto/user-model.dto';
 import { AppLogger } from '../app.logger';
 import { TokenInterface, TokenInterface as TokenEntity } from './interfaces/token.interface';
 import { CredentialsDto } from './dto/credentials.dto';
@@ -70,12 +70,12 @@ export class AuthService {
     });
   }
 
-  async register(user: UserDto): Promise<UserInterface> {
+  async register(user: UserModelDto): Promise<UserInterface> {
     this.logger.log(`[register] Register user ${JSON.stringify(user)}`);
     return this.userService.create(user);
   }
 
-  verify(token: string) {
+  decodeToken(token: string): {[key: string]: any} | string {
     this.jwtService.verify(token);
     return this.jwtService.decode(token);
   }
