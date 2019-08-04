@@ -12,7 +12,7 @@
     "start:debug": "nodemon --config nodemon-debug.json",
     "postinstall": "npm run prestart:prod",
     "prestart:prod": "rimraf dist && npm run build",
-    "start:prod": "node -r dotenv-safe/config ./dist/main.js",
+    "start:prod": "node -r dotenv-safe/config dist/main.js",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest",
     "test:watch": "jest --watch",
