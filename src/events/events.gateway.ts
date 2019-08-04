@@ -15,7 +15,7 @@ import { EVENT_TOKEN } from '../_common/constants';
 import { Model } from 'mongoose';
 import { EventInterface as EventEntity } from './interfaces/event.interface';
 
-@WebSocketGateway(3005, {namespace: 'events'})
+@WebSocketGateway({namespace: 'events'})
 export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   private logger = new AppLogger(EventsGateway.name);
 
