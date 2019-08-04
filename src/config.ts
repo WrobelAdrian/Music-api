@@ -11,6 +11,5 @@ export const config = {
   },
   deezer: {
     deezerUrl: process.env.DEEZER_URL,
-    deezerHeaders: process.env.DEEZER_HEADERS,
   },
 };

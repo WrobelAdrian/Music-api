@@ -2,7 +2,7 @@ import { USER_TOKEN } from '../_common/constants';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { UserInterface as UserEntity} from './interfaces/user.interface';
-import { UserDto } from './dto/user.dto';
+import { UserModelDto } from './dto/user-model.dto';
 import { AppLogger } from '../app.logger';
 
 @Injectable()
@@ -44,7 +44,7 @@ export class UserService {
     });
   }
 
-  public async create(user: UserDto): Promise<UserEntity> {
+  public async create(user: UserModelDto): Promise<UserEntity> {
     const userEntity: UserEntity = await this.findByEmail(user.email);
     if (userEntity) {
       this.logger.log(`[create] Create user, user already exists: ${JSON.stringify(user)}`);
@@ -63,7 +63,7 @@ export class UserService {
     });
   }
 
-  public async update(id: string, user: UserDto): Promise<UserEntity> {
+  public async update(id: string, user: UserModelDto): Promise<UserEntity> {
     this.logger.log(`[update] Update user ${id} with data: ${JSON.stringify(user)}`);
     return await this.userModel.findByIdAndUpdate({_id: id}, user, {new: true}).catch(error => {
       this.logger.log(`[update] Update user failed: ${JSON.stringify(error)}`);
@@ -79,7 +79,7 @@ export class UserService {
     return await this.userModel.findByIdAndRemove(id).catch(error => {
       this.logger.log(`[delete] Delete user failed: ${JSON.stringify(error)}`);
       throw new HttpException({
-          error: 'Delete',
+          error: 'User',
           message: `Delete failed with error: ${JSON.stringify(error)}`,
         }, HttpStatus.UNPROCESSABLE_ENTITY);
     });

@@ -9,14 +9,10 @@ import { config } from '../config';
 export class MusicService {
   private logger = new AppLogger(MusicService.name);
   private DEEZER_URL = config.deezer.deezerUrl;
-  private HEADERS = config.deezer.deezerHeaders;
-  constructor() {}
 
   async getItem(category: CategoryEnum, id: string): Promise<AxiosResponse> {
     this.logger.log(`[getItem] Fetching ${category} by id: ${id}`);
-    return await axios.get(`${this.DEEZER_URL}${category}/${id}`, {
-      headers: this.HEADERS,
-    })
+    return await axios.get(`${this.DEEZER_URL}${category}/${id}`)
       .then(res => res.data)
       .catch(err => {
         this.logger.log(`[getItem] Fetching failed: ${JSON.stringify(err)}`);
@@ -29,9 +25,7 @@ export class MusicService {
 
   async search(category: CategoryEnum, keyword: string): Promise<AxiosResponse> {
     this.logger.log(`[search] Searching ${category} by keyword: ${keyword}`);
-    return await axios.get(`${this.DEEZER_URL}search?q=${category}:"${keyword}"`, {
-      headers: this.HEADERS,
-    })
+    return await axios.get(`${this.DEEZER_URL}search/${category}?q=${keyword}`)
       .then(res => res.data)
       .catch(err => {
         this.logger.log(`[search] Searching failed: ${JSON.stringify(err)}`);
@@ -44,9 +38,7 @@ export class MusicService {
 
   async getAnything(anything: AnythingEnum): Promise<AxiosResponse> {
     this.logger.log(`[getAnything] Fetching ${anything}`);
-    return await axios.get(`${this.DEEZER_URL}${anything}`, {
-      headers: this.HEADERS,
-    })
+    return await axios.get(`${this.DEEZER_URL}${anything}`)
       .then(res => res.data)
       .catch(err => {
         this.logger.log(`[getAnything] Fetching failed: ${JSON.stringify(err)}`);
